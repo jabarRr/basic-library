@@ -1,0 +1,58 @@
+h1{
+    text-align: center;
+}
+.container{
+    margin-top: 40px;
+    display: grid;
+    justify-self: center;
+    border: solid;
+    width: 80vw;
+    height: 800px;
+}
+
+.formSection{
+    border: solid pink;
+}
+
+.addBookBtn{
+    margin-left: 250px;
+    justify-self: center;
+    margin-top: 10px;
+  
+    color: white;
+    background-color: blue;
+    height: 80px;
+    width:  240px;
+    border-radius: 10px;
+    
+    
+}
+
+.popUpDiv{
+    padding: 20px;
+    border-radius: 2%;
+    display: grid;
+    justify-content: center;
+    visibility: hidden;
+    border-color: blue;
+    border-style: solid;
+    height: 30vh;
+    width: 30vw;
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.popUpDiv div,
+.popUpDiv input,
+.popUpDiv select{
+    font-size: 2rem;
+}
+
+.popUpDiv button{
+    width: 150px;
+    height: 50px;
+    
+}
+
