@@ -1,4 +1,6 @@
 const myLibrary = [];
+let ticker = 0;
+
 
 function Book (title , author ,numOfPages, readStatus){
     if (!new.target){
@@ -10,12 +12,25 @@ function Book (title , author ,numOfPages, readStatus){
     this.author = author;
     this.numOfPages = numOfPages;
     this.readStatus = readStatus;
-    
+    this.uniqueId = crypto.randomUUID();
 
-    this.info = function() {
-        return (`${this.title} by ${this.author}, ${this.numOfPages} pages, ${this.readStatus} `);
-    }
+    
 }
+
+Book.prototype.changeReadStatus = function(){
+    if (this.readStatus == "read"){
+        this.readStatus = "not read" 
+    }
+    else if (this.readStatus != "read"){
+        this.readStatus = "read";
+    } 
+
+}
+
+
+
+
+
 
 function addBookToLibrary(array,bookTitle, bookAuthor, bookPages, readStatus){
      // take params, create a book then store it in the array
@@ -25,14 +40,174 @@ function addBookToLibrary(array,bookTitle, bookAuthor, bookPages, readStatus){
 
 
     console.log("The Library", array);
-    console.log(newBook.info());
+    
+}
+let loopCounter = 0;
+
+
+
+
+function displayBook (arrOfBooks) {
+    
+
+    const createBtn = document.createElement("button");
+    const createAnotherBtn = document.createElement("button");
+
+    
+    let indexSelectedBook = arrOfBooks.length - 1;
+    let selectedBook = arrOfBooks[indexSelectedBook]; // Index Position Of Selected Book
+    console.log("Selected Book", selectedBook);
+
+
+    let currentBookRow = tableRef.insertRow(-1);
+    let currentCellIndex = 0;
+
+    for (const prop in selectedBook){ // Each Prop In Boo
+
+        if (Object.prototype.hasOwnProperty.call(selectedBook, prop)){
+            console.log("Current Prop: ", prop);
+            let newCell = currentBookRow.insertCell(currentCellIndex);
+            newCellContent = selectedBook[prop];
+            newCell.append(newCellContent);
+            currentCellIndex ++;
+        }
+       
+        }    
+
+        let newCell = currentBookRow.insertCell(currentCellIndex);
+        if (selectedBook.readStatus == "read"){
+            console.log("its read");
+            createBtn.textContent = "Toggle Read Status";
+            createBtn.className = "readToggle";
+            
+        }
+        else if (selectedBook.readStatus != "read"){
+            createBtn.textContent = "Toggle Read Status";
+            createBtn.className = "readToggle";
+        
+
+        }
+        newCell.append(createBtn);
+        
+        
+        currentCellIndex++;
+        newCell = currentBookRow.insertCell(currentCellIndex);
+
+        createAnotherBtn.textContent = "Remove Book"
+        createAnotherBtn.className = "removeBook"
+       
+        newCell.append(createAnotherBtn);
+
+        
+
 }
 
+
+
+
+
+
+
+const tableRef  = document.querySelector(".bookSection");
 
 
 const addBookBtn = document.querySelector(".addBookBtn");
 const popUpDiv = document.querySelector(".popUpDiv");
 const sumbitBtn = document.querySelector(".submitBtn");
+const bookSection = document.querySelector(".bookSection");
+
+
+const newBookRow = document.createElement("tr");
+
+
+
+const newBookData = document.createElement("td");
+// Demo Books New Table Row with Tb data for each paramater;
+
+addBookToLibrary(myLibrary, "book1" , "author1" , 50, "read");
+displayBook(myLibrary);
+addBookToLibrary(myLibrary, "boo2" , "author2" , 150, "unread");
+displayBook(myLibrary);
+addBookToLibrary(myLibrary, "book3" , "author3" , 678, "read");
+displayBook(myLibrary);
+
+
+
+
+
+
+
+tableRef.addEventListener("click", (e) => {
+    let tableRowLs = tableRef.querySelectorAll("tr");
+    let tableRowCount = tableRef.childElementCount;
+    
+    console.log("Tbl Row Count", tableRowCount);
+    if (e.target.classList.contains("readToggle")) {  
+        const currentRow = e.target.parentElement.parentElement; // Gets the current Row of The Button
+        const currentRowLs = currentRow.childElementCount;
+        
+        console.log("Clicked:", currentRow);
+
+        for (let i =0; i < tableRowCount; i++){
+
+            console.log("");
+            console.log("tableRowlist I: ", tableRowLs[i]);
+            console.log("current row =", currentRow);
+            console.log("");
+            
+
+            if (tableRowLs[i] == currentRow){
+                console.log(`This is the ${i} Row`);
+
+                const tableCellLs = currentRow.querySelectorAll("td"); 
+
+                console.log("cell list", tableCellLs);
+
+                let currentObj = myLibrary[i];
+                console.log("Current Object", currentObj);
+
+                currentObj.changeReadStatus();
+               
+                let updatedReadCellSelect = tableCellLs[3];
+
+                console.log("Selected Cell: ", updatedReadCellSelect);
+                updatedReadCellSelect.textContent = currentObj.readStatus;
+
+                console.log("New Current Object", currentObj);
+            }
+
+        }
+    }
+    if (e.target.classList.contains("removeBook")){
+        console.log("Delete Button Clicked");
+        const currentRow = e.target.parentElement.parentElement;
+        const currentRowLs = currentRow.childElementCount;
+
+        const tableCellLs = currentRow.querySelectorAll("td");
+        
+        for (let i = 0; i < currentRowLs; i++){
+           
+
+            console.log("Selected Cell", tableCellLs[i]);
+            currentRow.removeChild(tableCellLs[i])
+
+            let childrenLeft = currentRow.childElementCount;
+            
+            console.log("child count", childrenLeft);
+
+            if (childrenLeft == 0){
+                tableRef.removeChild(currentRow);
+            }
+            //currentRow.deleteCell(i);
+            //console.log("selected Cell again: ", tableCellLs[i]);
+
+        }
+        
+    }
+});
+
+
+
 
 
 addBookBtn.addEventListener("click", function(e){
@@ -47,6 +222,8 @@ addBookBtn.addEventListener("click", function(e){
 });
 
 sumbitBtn.addEventListener("click", function(e){
+    
+
     bookTitle = document.querySelector("#bookTitle").value;
     bookAuthor = document.querySelector("#bookAuthor").value;
     bookPages = document.querySelector("#numOfPages").value;
@@ -54,8 +231,13 @@ sumbitBtn.addEventListener("click", function(e){
     addBookToLibrary(myLibrary, bookTitle, bookAuthor, bookPages, readStatus);
 
 
+    displayBook(myLibrary);
+
+
+   
     
+
+
     console.log("Total Library", myLibrary);
     popUpDiv.style.visibility = "hidden";
 });
-

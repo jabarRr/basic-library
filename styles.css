@@ -1,3 +1,18 @@
+@font-face {
+    font-family: "monospace";
+    src:
+    url("fonts/spacemono-regular-webfont.woff2") format("woff2"),
+    url("fonts/spacemono-regular-webfont.woff") format("woff");
+}
+
+:root{
+    font-family: "monospace", sans-serif;
+}
+button{
+    font-family: "monospace", sans-serif;
+}
+
+
 h1{
     text-align: center;
 }
@@ -7,7 +22,7 @@ h1{
     justify-self: center;
     border: solid;
     width: 80vw;
-    height: 800px;
+    
 }
 
 .formSection{
@@ -29,6 +44,7 @@ h1{
 }
 
 .popUpDiv{
+    background-color: lightgrey;
     padding: 20px;
     border-radius: 2%;
     display: grid;
@@ -42,6 +58,7 @@ h1{
     top: 40%;
     left: 50%;
     transform: translate(-50%, -50%);
+    background-color: lightgrey1;
 }
 
 .popUpDiv div,
@@ -56,3 +73,24 @@ h1{
     
 }
 
+
+
+tr{
+    height: 80px;
+    text-align: center;
+}
+
+tr:hover{
+    background-color: lightgray;
+}
+
+table,th,td {
+    border: 1px solid black;
+}
+th{
+    background-color: cadetblue;
+}
+
+table{
+    border-collapse: collapse;
+}

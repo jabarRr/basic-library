@@ -3,17 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Book Object</title>
+    <title>My Personal Library</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <h1>Library</h1>
     <button class="addBookBtn">New Book</button>
-    <div class="container">
-
-        
-
-        <div class="popUpDiv">
+    <div class="popUpDiv">
             <h1>Add a New Book</h1>
             <form>
             <div class="bookTitleDiv">
@@ -39,14 +35,30 @@
                 </select>
             </div>
 
-            <button class="submitBtn" type="button">Add Book</button>
+            <button class="submitBtn" type="reset">Add Book</button>
         </form>
 
-        </div>
+    </div>
 
-        <div class="bookSection">
 
-        </div>
+    <div class="container">
+
+        <table class="bookTable">
+            <thead>
+                <th>Book Name</th>
+                <th>Book Author</th>
+                <th>Number Of Pages</th>
+                <th>Read Status</th>
+                <th>Unique ID</th>
+                <th>Mark as Read</th>
+                <th>Remove This Book</th>
+            </thead>
+            <tbody class="bookSection">
+                
+
+            </tbody>
+        </table>
+
 
     </div>
 
