@@ -2,54 +2,44 @@ const myLibrary = [];
 let ticker = 0;
 
 
-function Book (title , author ,numOfPages, readStatus){
-    if (!new.target){
-        throw Error('Must be called using "new" operator');
+
+class Book {
+
+    constructor (title, author , numOfPages, readStatus){
+        this.title = title;
+        this.author = author;
+        this.numOfPages = numOfPages;
+        this.readStatus = readStatus;
+        this.uniqueId = crypto.randomUUID()
     }
-
-    
-    this.title = title;
-    this.author = author;
-    this.numOfPages = numOfPages;
-    this.readStatus = readStatus;
-    this.uniqueId = crypto.randomUUID();
-
-    
-}
-
-Book.prototype.changeReadStatus = function(){
-    if (this.readStatus == "read"){
+    changeReadStatus (){
+        if (this.readStatus == "read"){
         this.readStatus = "not read" 
+        }
+        else if (this.readStatus != "read"){
+            this.readStatus = "read";
+        } 
+
     }
-    else if (this.readStatus != "read"){
-        this.readStatus = "read";
-    } 
+}
 
+
+class addBookToLibrary {
+
+    constructor (array,bookTitle, bookAuthor, bookPages, readStatus){
+        const newBook = new Book(bookTitle, bookAuthor,bookPages, readStatus);
+        array.push(newBook);
+
+    }
 }
 
 
 
-
-
-
-function addBookToLibrary(array,bookTitle, bookAuthor, bookPages, readStatus){
-     // take params, create a book then store it in the array
-    const newBook = new Book(bookTitle, bookAuthor,bookPages, readStatus);
-    array.push(newBook);
-
-
-
-    console.log("The Library", array);
-    
-}
 let loopCounter = 0;
 
+class displayBook {
 
-
-
-function displayBook (arrOfBooks) {
-    
-
+    constructor(arrOfBooks){
     const createBtn = document.createElement("button");
     const createAnotherBtn = document.createElement("button");
 
@@ -63,11 +53,15 @@ function displayBook (arrOfBooks) {
     let currentCellIndex = 0;
 
     for (const prop in selectedBook){ // Each Prop In Boo
-
+        console.log("Selected Book: " , selectedBook);
+        console.log("Prop", prop);
         if (Object.prototype.hasOwnProperty.call(selectedBook, prop)){
+
+
             console.log("Current Prop: ", prop);
+            
             let newCell = currentBookRow.insertCell(currentCellIndex);
-            newCellContent = selectedBook[prop];
+            const newCellContent = selectedBook[prop];
             newCell.append(newCellContent);
             currentCellIndex ++;
         }
@@ -98,14 +92,11 @@ function displayBook (arrOfBooks) {
        
         newCell.append(createAnotherBtn);
 
-        
+
+
+    }
 
 }
-
-
-
-
-
 
 
 const tableRef  = document.querySelector(".bookSection");
@@ -124,12 +115,12 @@ const newBookRow = document.createElement("tr");
 const newBookData = document.createElement("td");
 // Demo Books New Table Row with Tb data for each paramater;
 
-addBookToLibrary(myLibrary, "book1" , "author1" , 50, "read");
-displayBook(myLibrary);
-addBookToLibrary(myLibrary, "boo2" , "author2" , 150, "unread");
-displayBook(myLibrary);
-addBookToLibrary(myLibrary, "book3" , "author3" , 678, "read");
-displayBook(myLibrary);
+new addBookToLibrary(myLibrary, "book1" , "author1" , 50, "read");
+new displayBook(myLibrary);
+new addBookToLibrary(myLibrary, "boo2" , "author2" , 150, "unread");
+new displayBook(myLibrary);
+new addBookToLibrary(myLibrary, "book3" , "author3" , 678, "read");
+new displayBook(myLibrary);
 
 
 
@@ -228,10 +219,10 @@ sumbitBtn.addEventListener("click", function(e){
     bookAuthor = document.querySelector("#bookAuthor").value;
     bookPages = document.querySelector("#numOfPages").value;
     readStatus = document.querySelector("#readStatus").value;
-    addBookToLibrary(myLibrary, bookTitle, bookAuthor, bookPages, readStatus);
+    new addBookToLibrary(myLibrary, bookTitle, bookAuthor, bookPages, readStatus);
 
 
-    displayBook(myLibrary);
+    new displayBook(myLibrary);
 
 
    
